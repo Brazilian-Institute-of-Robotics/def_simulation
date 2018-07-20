@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot name="dyn_ef_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="height" value="2.0" />
+  <xacro:property name="pi" value="3.141592654" />
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.09" rpy="${pi/2.0} 0 0" />
+      <geometry>
+        <!-- <box size="${height*0.05} ${height*0.05} ${height*0.1}" /> -->
+        <mesh filename="package://dynamic_end_effector/meshes/h54-200-s500-r.stl" scale="0.001 0.001 0.001"/>
+        <!-- <box size="1 2 3"/> -->
+      </geometry>
+    </visual>
+  </link>
+</robot>
