@@ -17,12 +17,11 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find dynamic_end_effector)/urdf/dynamic_ef.urdf.xacro' --inorder" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find dynamic_end_effector)/urdf/dynamic-ef.urdf.xacro' --inorder" />
+
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <node name="dyn_ef_spawn" pkg="gazebo_ros" type="spawn_model"
-        args="-unpause -urdf -model dyn_ef -param robot_description" respawn="false" output="screen" />
-  <!-- <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" 
-        output="screen" args="-urdf -param robot_description -x 0.0 -y -0.01 -z 0.40 -model elir" /> -->
+        args="-unpause -urdf -model dynef -param robot_description -z 1.0" respawn="false" output="screen" />
 
 
   <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher">
