@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
 <robot name="dyn_ef_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="height" value="2.0" />
-  <!-- <xacro:property name="pi" value="3.141592654" /> -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/dyn_ef_robot</robotNamespace>
+    </plugin>
+  </gazebo>
+
+  <xacro:property name="height" value="0.0" />
+  
   <xacro:macro name="default_inertial" params="mass">
     <inertial>
       <mass value="${mass}" />
@@ -10,10 +16,25 @@
     </inertial>
   </xacro:macro>
 
+  <xacro:macro name="transmission_block" params="joint_name">
+    <transmission name="trans_${joint_name}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint_name}">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_${joint_name}">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+
   <material name="blue">
     <color rgba="0 0 0.8 1"/>
   </material>
 
+  <!--                                start listing links and joints                                                -->
   <link name="world"/>
 
   <joint name="fixy" type="fixed">
@@ -37,12 +58,16 @@
     <xacro:default_inertial mass="0.8"/>
   </link>
 
+
   <joint name="base_link_to_base_yaw_link_joint" type="continuous">
     <parent link="base_link"/>
     <child link="base_yaw_link"/>
     <origin xyz="0 0 0.126"/>
     <axis xyz="0 0 1"/>
+    <dynamics damping="1.0" friction="5.0"/>
   </joint>
+  
+  <xacro:transmission_block joint_name="base_link_to_base_yaw_link_joint"/>
 
   <link name="base_yaw_link">
     <visual>
@@ -69,9 +94,11 @@
     <child link="first_link"/>
     <origin xyz="0 0 0.042"/>
     <axis xyz="1 0 0"/>
-    <dynamics damping="1.0" friction="5.0"/>
+    <dynamics damping="1.0" friction="1.0"/>
     <limit upper="2.0" lower="-2.0" effort="45" velocity="1"/>
   </joint>
+
+  <xacro:transmission_block joint_name="base_yaw_link_to_first_link_joint"/>
 
   <link name="first_link">
     <visual>
@@ -97,6 +124,8 @@
     <dynamics damping="1.0" friction="5.0"/>
   </joint>
 
+  <xacro:transmission_block joint_name="first_link_to_second_link_joint"/>
+
   <link name="second_link">
     <visual>
       <origin xyz="-0.033 0 0" rpy="${pi/2.0} -${pi/2.0} 0" />
@@ -121,6 +150,8 @@
     <dynamics damping="1.0" friction="5.0"/>
   </joint>
 
+  <xacro:transmission_block joint_name="second_link_to_third_link_joint"/>
+
   <link name="third_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -144,6 +175,8 @@
     <axis xyz="1 0 0"/>
     <dynamics damping="1.0" friction="5.0"/>
   </joint>
+
+  <xacro:transmission_block joint_name="third_link_to_fourth_link_joint"/>
 
   <link name="fourth_link">
     <visual>
@@ -170,6 +203,9 @@
     <axis xyz="0 0 1"/>
     <dynamics damping="1.0" friction="5.0"/>
   </joint>
+
+  <xacro:transmission_block joint_name="fourth_link_to_fifth_link_joint"/>
+
 
   <link name="fifth_link">
     <visual>
