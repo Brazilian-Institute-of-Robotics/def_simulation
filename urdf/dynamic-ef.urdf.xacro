@@ -1,19 +1,22 @@
 <?xml version="1.0"?>
 <robot name="dyn_ef_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/dyn_ef_robot</robotNamespace>
-    </plugin>
-  </gazebo>
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find dynamic_end_effector)/urdf/dynamic-ef.gazebo" />
 
+  <!-- RViz-only colors -->
   <material name="red">
     <color rgba="1.0 0 0 1.0"/>
   </material>
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
 
+  <!-- some properties for the urdf file -->
   <xacro:property name="height" value="0.0" />
   <xacro:property name="camera_link_size" value="0.05" /> <!-- Size of square 'camera' box -->
   
+  <!-- inertias for all links -->
   <xacro:macro name="default_inertial" params="mass">
     <inertial>
       <mass value="${mass}" />
@@ -21,6 +24,7 @@
     </inertial>
   </xacro:macro>
 
+  <!-- interface between moveit and gazebo controllers -->
   <xacro:macro name="transmission_block" params="joint_name">
     <transmission name="trans_${joint_name}">
       <type>transmission_interface/SimpleTransmission</type>
@@ -35,11 +39,7 @@
   </xacro:macro>
 
 
-  <material name="blue">
-    <color rgba="0 0 0.8 1"/>
-  </material>
-
-  <!--                                start listing links and joints                                                -->
+  <!--  ##################### start listing links and joints  ##############################  -->
   <link name="world"/>
 
   <joint name="fixy" type="fixed">
@@ -190,14 +190,12 @@
   <link name="fourth_link">
     <visual>
       <origin xyz="0 0 0" rpy="${pi/2.0} 0 ${pi/2.0}" />
-      <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_linkFour.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="${pi/2.0} 0 ${pi/2.0}" />
-      <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_linkFour.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -220,14 +218,12 @@
   <link name="fifth_link">
     <visual>
       <origin xyz="0 0 0" rpy="${pi/2.0} 0 0" />
-      <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_linkFive.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="${pi/2.0} 0 0" />
-      <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_linkFive.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -235,6 +231,7 @@
     <xacro:default_inertial mass="0.01"/>
   </link>
 
+  <!-- fixed camera joint -->
   <joint name="camera_joint" type="fixed">
     <!-- <axis xyz="0 1 0" /> -->
     <origin xyz="0 0 ${camera_link_size/2 + 0.01}" rpy="0 0 0"/>
@@ -250,70 +247,18 @@
         <box size="${camera_link_size} ${camera_link_size} ${camera_link_size}"/>
       </geometry>
     </collision>
-
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <box size="${camera_link_size} ${camera_link_size} ${camera_link_size}"/>
       </geometry>
     </visual>
-
     <inertial>
       <mass value="1e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
   </link>
-
-  <!-- <gazebo reference="camera_link">  
- 
-  </gazebo> -->
-
-    <!-- camera -->
-  <gazebo reference="camera_link">
-    <visual>  
-      <material>  
-        <ambient>0.70 0.19225 0.19225 1.0</ambient>  
-        <diffuse>0.90 0.50754 0.50754 1.0</diffuse>  
-        <specular>0.90 0.508273 0.508273 1.0</specular>  
-        <emissive>0.0 0.0 0.0 0.0</emissive>  
-      </material>  
-    </visual> 
-    <sensor type="camera" name="camera1">
-      <update_rate>30.0</update_rate>
-      <camera name="head">
-        <horizontal_fov>1.3962634</horizontal_fov>
-        <image>
-          <width>800</width>
-          <height>800</height>
-          <format>R8G8B8</format>
-        </image>
-        <clip>
-          <near>0.02</near>
-          <far>300</far>
-        </clip>
-        <noise>
-          <type>gaussian</type>
-          <mean>0.0</mean>
-          <stddev>0.007</stddev>
-        </noise>
-      </camera>
-      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-        <alwaysOn>true</alwaysOn>
-        <updateRate>0.0</updateRate>
-        <cameraName>dyn_ef_robot/camera1</cameraName>
-        <imageTopicName>image_raw</imageTopicName>
-        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-        <frameName>camera_link</frameName>
-        <hackBaseline>0.07</hackBaseline>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
-      </plugin>
-    </sensor>
-  </gazebo>
 
 
 
