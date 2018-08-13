@@ -15,7 +15,7 @@
     <!-- An apriltag -->
     <include>
       <uri>model://Tag0</uri>
-      <pose>2.0 2.0 1.0 0.5 0 0</pose>
+      <pose>0.0 1.2 0.5 0.0 0 0</pose>
     </include>
 
   </world>
