@@ -65,12 +65,13 @@
 
 
   <joint name="base_link_to_base_yaw_link_joint" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-pi}" soft_upper_limit="${pi}"/>
     <parent link="base_link"/>
     <child link="base_yaw_link"/>
     <origin xyz="0 0 0.126"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="1.0" friction="5.0"/>
-    <limit upper="${pi}" lower="${-pi}" effort="45" velocity="1"/>
+    <limit upper="${pi}" lower="${-pi}" effort="45" velocity="5"/>
   </joint>
   
   <xacro:transmission_block joint_name="base_link_to_base_yaw_link_joint"/>
@@ -96,12 +97,13 @@
   </link>
 
   <joint name="base_yaw_link_to_first_link_joint" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.0" soft_upper_limit="2.0"/>
     <parent link="base_yaw_link"/>
     <child link="first_link"/>
     <origin xyz="0 0 0.042"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="1.0" friction="1.0"/>
-    <limit upper="2.0" lower="-2.0" effort="45" velocity="1"/>
+    <limit upper="2.0" lower="-2.0" effort="45" velocity="5"/>
   </joint>
 
   <xacro:transmission_block joint_name="base_yaw_link_to_first_link_joint"/>
@@ -123,12 +125,13 @@
   </link>
 
   <joint name="first_link_to_second_link_joint" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-0.9*pi}" soft_upper_limit="${0.9*pi}"/>
     <parent link="first_link"/>
     <child link="second_link"/>
     <origin xyz="0 0 0.806"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="1.0" friction="5.0"/>
-    <limit upper="${0.9*pi}" lower="${-0.9*pi}" effort="45" velocity="1"/>
+    <limit upper="${0.9*pi}" lower="${-0.9*pi}" effort="45" velocity="5"/>
   </joint>
 
   <xacro:transmission_block joint_name="first_link_to_second_link_joint"/>
@@ -150,12 +153,13 @@
   </link>
 
   <joint name="second_link_to_third_link_joint" type="continuous">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-pi}" soft_upper_limit="${pi}"/>
     <parent link="second_link"/>
     <child link="third_link"/>
     <origin xyz="-0.06 0 0.61555"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="1.0" friction="5.0"/>
-    <limit upper="${pi}" lower="${-pi}" effort="45" velocity="1"/>
+    <limit upper="${pi}" lower="${-pi}" effort="45" velocity="5"/>
   </joint>
 
   <xacro:transmission_block joint_name="second_link_to_third_link_joint"/>
@@ -176,13 +180,14 @@
     <xacro:default_inertial mass="0.1"/>
   </link>
 
-  <joint name="third_link_to_fourth_link_joint" type="continuous">
+  <joint name="third_link_to_fourth_link_joint" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.0" soft_upper_limit="2.0"/>
     <parent link="third_link"/>
     <child link="fourth_link"/>
     <origin xyz="-0.025262 0 0.0383"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="1.0" friction="5.0"/>
-    <limit upper="2.0" lower="-2.0" effort="45" velocity="1"/>
+    <limit upper="2.0" lower="-2.0" effort="45" velocity="5"/>
   </joint>
 
   <xacro:transmission_block joint_name="third_link_to_fourth_link_joint"/>
@@ -204,12 +209,13 @@
   </link>
 
   <joint name="fourth_link_to_fifth_link_joint" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-pi}" soft_upper_limit="${pi}"/>
     <parent link="fourth_link"/>
     <child link="fifth_link"/>
     <origin xyz="0.0278 0 0.09375"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="1.0" friction="5.0"/>
-    <limit upper="${pi}" lower="${-pi}" effort="45" velocity="1"/>
+    <limit upper="${pi}" lower="${-pi}" effort="45" velocity="5"/>
   </joint>
 
   <xacro:transmission_block joint_name="fourth_link_to_fifth_link_joint"/>
