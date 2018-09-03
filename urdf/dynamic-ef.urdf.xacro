@@ -80,15 +80,15 @@
 
   <link name="base_yaw_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 ${-pi/2} 0" />
+      <origin xyz="0 0 0" rpy="0 ${-pi} 0" />
       <geometry>
-        <mesh filename="package://dynamic_end_effector/meshes/dynamixel_pro_frame.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://dynamic_end_effector/meshes/assembly_link2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 ${-pi/2} 0" />
+      <origin xyz="0 0 0" rpy="0 ${-pi} 0" />
       <geometry>
-        <mesh filename="package://dynamic_end_effector/meshes/dynamixel_pro_frame_simple.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://dynamic_end_effector/meshes/assembly_link2_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <inertial>
@@ -102,7 +102,7 @@
     <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.0" soft_upper_limit="2.0"/>
     <parent link="base_yaw_link"/>
     <child link="first_link"/>
-    <origin xyz="0 0 0.068"/>
+    <origin xyz="0 0 0.0392"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="1.0" friction="1.0"/>
     <limit upper="2.0" lower="-2.0" effort="45" velocity="5"/>
@@ -112,13 +112,13 @@
 
   <link name="first_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 ${-pi/2} 0" />
+      <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_arm_1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 ${-pi/2} 0" />
+      <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_arm_1_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -127,26 +127,26 @@
   </link>
 
   <joint name="first_link_to_second_link_joint" type="revolute">
-    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-pi}" soft_upper_limit="${pi/4}"/>
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-pi/4}" soft_upper_limit="${pi}"/>
     <parent link="first_link"/>
     <child link="second_link"/>
-    <origin xyz="-0.033838 -0.006 0.430615"/>
+    <origin xyz="0.034613 0.00625 0.457247"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="1.0" friction="5.0"/>
-    <limit upper="${pi/4}" lower="${-pi}" effort="45" velocity="5"/>
+    <limit lower="${-pi/4}" upper="${pi}" effort="45" velocity="5"/>
   </joint>
 
   <xacro:transmission_block joint_name="first_link_to_second_link_joint"/>
 
   <link name="second_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_arm_2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
       <geometry>
         <mesh filename="package://dynamic_end_effector/meshes/assembly_arm_2_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -158,7 +158,7 @@
     <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-pi}" soft_upper_limit="${pi}"/>
     <parent link="second_link"/>
     <child link="third_link"/>
-    <origin xyz="0.031 0.001 0.42"/>
+    <origin xyz="-0.031 -0.001 0.422"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="1.0" friction="5.0"/>
     <limit upper="${pi}" lower="${-pi}" effort="45" velocity="5"/>
@@ -176,7 +176,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
       <geometry>
-        <mesh filename="package://dynamic_end_effector/meshes/frame_mx108.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://dynamic_end_effector/meshes/frame_mx108_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <xacro:default_inertial mass="0.1"/>
@@ -214,7 +214,7 @@
     <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="${-pi}" soft_upper_limit="${pi}"/>
     <parent link="fourth_link"/>
     <child link="fifth_link"/>
-    <origin xyz="0 0 0.1198"/>
+    <origin xyz="0 0.0005 0.1233"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="1.0" friction="5.0"/>
     <limit upper="${pi}" lower="${-pi}" effort="45" velocity="5"/>
@@ -225,15 +225,15 @@
 
   <link name="fifth_link">
     <visual>
-      <origin xyz="0 0 0" rpy="${pi/2.0} 0 0" />
+      <origin xyz="0.004143 -0.006953 0.004" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://dynamic_end_effector/meshes/assembly_linkFive.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://dynamic_end_effector/meshes/Pointing_Finger2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="${pi/2.0} 0 0" />
+      <origin xyz="0.004143 -0.006953 0.004" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://dynamic_end_effector/meshes/assembly_linkFive.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://dynamic_end_effector/meshes/Pointing_Finger2_simple.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <xacro:default_inertial mass="0.01"/>
