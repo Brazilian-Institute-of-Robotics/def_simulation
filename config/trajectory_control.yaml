@@ -1,6 +1,6 @@
 dyn_ef_robot:
  dyn_ef_robot_controller:
-    type: "position_controllers/JointTrajectoryController"
+    type: 'position_controllers/JointTrajectoryController'
     joints:
       - base_link_to_base_yaw_link_joint
       - base_yaw_link_to_first_link_joint
